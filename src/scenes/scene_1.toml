@@ -1,0 +1,12 @@
+scene_name = "scene_1"
+
+[objs]
+	[obj.ball.no1]
+		position = [ 0, 0 ]
+		size = 0
+		color = [ 255, 255, 255 ]
+
+	[obj.ball.no2]	
+		position = [ 0, 0 ]
+		size = 0
+		color = [ 255, 255, 255 ]
