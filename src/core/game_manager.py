@@ -2,7 +2,7 @@ import pygame as pg
 from settings import global_settings as gs
 from utils.time import Time
 #this is kinda wierd
-from assets.ball import Ball
+from assets.minigame_controlers.prospecting_no1 import ProspectingMinigame_No1
 
 class GameManager:
     Instance = None
@@ -22,15 +22,15 @@ class GameManager:
     def init(self):
         pg.init()
         self.screen = pg.display.set_mode((gs.SCREEN_WIDTH, gs.SCREEN_HEIGHT))
-        pg.display.set_caption("Prospecting Minigame")
+        pg.display.set_caption("Prospecting Minigame #1")
         self.clock = pg.time.Clock()
         self.__running = True
         
         #TODO do a load scene from file or something like that
 
-        ball = Ball()
+        p_no1 = ProspectingMinigame_No1()
         self.game_objects = []
-        self.game_objects.append(ball)
+        self.game_objects.append(p_no1)
 
         self.game_loop()
 
