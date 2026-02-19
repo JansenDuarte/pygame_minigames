@@ -26,7 +26,7 @@ class GameManager:
         self.clock = pg.time.Clock()
         self.__running = True
         
-        #do a load scene from file or something like that
+        #TODO do a load scene from file or something like that
 
         ball = Ball()
         self.game_objects = []
