@@ -4,6 +4,7 @@ import time
 from utils.time import Time
 from settings import global_settings as gs
 from core.game_obj import GameObject
+from core.game_ui import GameUI
 from core.input import Input
 
 class ProspectingMinigame_No1(GameObject):
@@ -44,8 +45,10 @@ class ProspectingMinigame_No1(GameObject):
                 )
 
         self.name = 'Ore #1'
-        self.font = pg.font.SysFont('arial', 16)
-
+        self.font = GameUI.Instance.load_font('arial', 16)
+        self.timer_text = GameUI.Instance.create_text("", (10, 10), "white", self.font)
+        self.boost_text = GameUI.Instance.create_text("", (10, 100), "white", self.font)
+        self.combo_text = GameUI.Instance.create_text("", (10, 400), "white", self.font)
 
     def update(self):
         if self.minigame_active:
@@ -56,22 +59,19 @@ class ProspectingMinigame_No1(GameObject):
             if self.timer > self.minigame_timer:
                 self.end_minigame()
 
-        self.ui_refresh()
+            self.ui_refresh()
 
 
     def draw(self, screen):
         super().draw(screen)
-        pg.Surface.blit(screen, self.timer_text_surf, (10, 10))
-        pg.Surface.blit(screen, self.boost_text_surf, (10, 100))
-        pg.Surface.blit(screen, self.combo_text_surf, (10, 400))
 
     def ui_refresh(self):
-        self.timer_text = f"Time remaining: {(self.minigame_timer - self.timer):.2f}"
-        self.timer_text_surf = self.font.render(self.timer_text, True, 'white')
-        self.boost_text = f"Current boost: {(self.current_boost / 100):.2f}"
-        self.boost_text_surf = self.font.render(self.boost_text, True, 'white')
-        self.combo_text = f"Combo: x{self.combo}"
-        self.combo_text_surf = self.font.render(self.combo_text, True, 'white')
+        timer = (self.minigame_timer - self.timer)
+        if timer < 0:
+            timer = 0.0
+        self.timer_text.text = f"Time remaining: {(timer):.2f}"
+        self.boost_text.text = f"Current boost: {(self.current_boost / 1000):.2f}"
+        self.combo_text.text = f"Combo: x{self.combo}"
 
     def random_pos(self):
         new_x = int(rng.uniform(0 + self.half_size.x, 
@@ -115,7 +115,8 @@ class ProspectingMinigame_No1(GameObject):
     def end_minigame(self):
         self.minigame_active = False
         self.position = pg.Vector2(10000, 10000)
-        print(f"final boost {self.current_boost}")
+        super().update()
+
 
 
 
